@@ -164,3 +164,31 @@ docker-compose exec api python scripts/test_analysis.py
 
 # 5. Usar la API
 curl -X POST "http://localhost:8000/analyze" -H "Content-Type: application/json" -d '{"process_name": "etl_diario", "lookback_days": 7}'
+
+
+# AI-PRTG - Comandos para Instalar Modelos de IA
+
+## 🤖 Comandos de Instalación de Modelos IA
+
+### Instalación de Modelos en Ollama
+| Comando | Descripción | Modelos Recomendados |
+|---------|-------------|---------------------|
+| `docker-compose exec ollama ollama pull llama3.2:1b` | Instalar modelo pequeño y rápido | **Recomendado para CPU** |
+| `docker-compose exec ollama ollama pull llama3.2:3b` | Instalar modelo balanceado | Buen equilibrio velocidad/calidad |
+| `docker-compose exec ollama ollama pull phi3:mini` | Instalar modelo optimizado | Muy eficiente en CPU |
+| `docker-compose exec ollama ollama pull gemma2:2b` | Instalar modelo de Google | Alternativa liviana |
+
+### Verificación de Modelos
+| Comando | Descripción | Salida Esperada |
+|---------|-------------|-----------------|
+| `docker-compose exec ollama ollama list` | Listar modelos instalados | Lista de modelos disponibles |
+| `curl http://localhost:11434/api/tags` | Ver modelos via API | JSON con modelos |
+
+## 🚀 Comando Recomendado para Empezar
+
+```bash
+# Instalar el modelo optimizado para CPU
+docker-compose exec ollama ollama pull llama3.2:1b
+
+# Verificar instalación
+docker-compose exec ollama ollama list
