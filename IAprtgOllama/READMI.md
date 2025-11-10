@@ -109,3 +109,58 @@ process_records:
 - tiempo_duracion (DOUBLE) - Duración en minutos
 - registros_procesados (INTEGER) - Volumen procesado
 - procesonombre (VARCHAR) - Nombre del proceso
+
+## AI-PRTG - Comandos Principales
+
+##  Comandos Esenciales para Ejecutar el Proyecto
+
+### Inicialización y Construcción
+| Comando | Descripción | Ejemplo de Uso |
+|---------|-------------|----------------|
+| `docker-compose build --no-cache` | Reconstruir imágenes desde cero | Cuando hay cambios en dependencias |
+| `docker-compose up -d` | Iniciar todos los servicios en segundo plano | Al empezar a trabajar |
+| `docker-compose down` | Detener y eliminar todos los servicios | Al terminar de trabajar |
+
+### Gestión de Datos
+| Comando | Descripción | Ejemplo de Uso |
+|---------|-------------|----------------|
+| `docker-compose exec api python scripts/init_db.py` | Crear base de datos con datos de ejemplo | Primera vez o para resetear datos |
+| `docker-compose exec api python scripts/test_analysis.py` | Ejecutar prueba completa del sistema | Verificar que todo funciona |
+
+### Operación y Monitoreo
+| Comando | Descripción | Ejemplo de Uso |
+|---------|-------------|----------------|
+| `docker-compose ps` | Ver estado de los contenedores | Verificar que todo esté corriendo |
+| `docker-compose logs -f api` | Ver logs en tiempo real de la API | Cuando hay errores o para debug |
+| `docker-compose restart api` | Reiniciar solo el servicio de API | Después de cambios en el código |
+
+### Uso de la API
+| Comando | Descripción | Ejemplo de Uso |
+|---------|-------------|----------------|
+| `curl http://localhost:8000/health` | Verificar estado del sistema | Confirmar que la API responde |
+| `curl -X POST "http://localhost:8000/analyze" -H "Content-Type: application/json" -d '{"process_name": "etl_diario", "lookback_days": 7}'` | Analizar un proceso específico | Obtener análisis de IA |
+
+##  Comandos de Mantenimiento
+| Comando | Descripción | Cuándo Usarlo |
+|---------|-------------|---------------|
+| `docker-compose restart` | Reiniciar todos los servicios | Después de cambios de configuración |
+| `docker-compose logs --tail=50` | Ver últimas 50 líneas de logs | Para debugging rápido |
+| `docker-compose exec api bash` | Acceder a terminal del contenedor API | Para troubleshooting avanzado |
+
+##  Flujo de Trabajo Típico
+
+```bash
+# 1. Construir/Reconstruir el proyecto
+docker-compose build --no-cache
+
+# 2. Iniciar servicios
+docker-compose up -d
+
+# 3. Inicializar datos
+docker-compose exec api python scripts/init_db.py
+
+# 4. Ejecutar pruebas
+docker-compose exec api python scripts/test_analysis.py
+
+# 5. Usar la API
+curl -X POST "http://localhost:8000/analyze" -H "Content-Type: application/json" -d '{"process_name": "etl_diario", "lookback_days": 7}'
